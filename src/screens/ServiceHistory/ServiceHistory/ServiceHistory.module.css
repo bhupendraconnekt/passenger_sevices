@@ -258,6 +258,7 @@ border-color: #cac7c7;
   font-weight: 540;
   margin-top: 10px;
   margin-bottom: 10px;
+  display: flex;
 }
 
 .modalButton {

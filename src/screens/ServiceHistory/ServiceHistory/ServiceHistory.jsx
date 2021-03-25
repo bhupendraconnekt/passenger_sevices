@@ -517,6 +517,21 @@ export function ServiceHistory(props) {
         [event.target.name]: [event.target.value]
       })
     }
+    //  debugger
+    function renderComponent() {
+    debugger
+      const list = arrayDetails.orders;
+         
+      return (
+        <span>
+    {list.map((el ,i)=><span>{el.items.name+(list.length-1==i?" ":",")}</span>)}
+        </span>
+      )
+    }
+    
+    function Parent(props) {
+      // return renderProducts();
+    }
 
   return(
     <div className={styles.main}>
@@ -560,10 +575,10 @@ export function ServiceHistory(props) {
              )}
          </select>
          </div> */}
-
+      
           <div className={styles.selectDiv1}>
-            <select className={styles.select1} name="role" /*value={this.state.courseId}*/ onChange={handleInputs}>
-              <option selected disabled>Service Category</option>
+            <select className={styles.select1} name="role"onChange={handleInputs}>
+              <option selected disabled></option>
               {role.length > 0 && role.map(data =>
                   <option key={data._id} value={data._id}>{data.role.replace('_', ' ')}</option>
                   )}
@@ -661,7 +676,8 @@ export function ServiceHistory(props) {
               <TableCell align="center">{row.user.name}</TableCell>
               <TableCell align="center">{row.trainname_or_number}</TableCell>
               <TableCell align="center">{row.user.mobile}</TableCell>
-              <TableCell align="center">{row.service.from_time}</TableCell>
+              {/* <TableCell align="center">{moment(order.station.delivery_date).format("DD MMMM YYYY" )}</TableCell> */}
+              <TableCell align="center">{moment(row.delivery_date).format("DD-MM-YY HH:MM")}hrs</TableCell>
               <TableCell align="center">{row.total_amount}.00</TableCell>
               <TableCell align="center">{row.payment_mode}</TableCell>
               <TableCell style={{color: row.order_status=="NEW"? '#10AC44':'#B22222' }} align="center" >{row.order_status}</TableCell>
@@ -738,7 +754,9 @@ export function ServiceHistory(props) {
 				{/* Modal for view Details */}
 				{<Modal className={styles.modalContainer3} contentClassName={styles.customClass}
 				 isOpen={modal.details} toggle={toggleModalClose} centered={true}>
+           
 				 <CancelIcon
+           // debugger
 					 style={{
 						 width: 40,
 						 height: 40,
@@ -762,18 +780,21 @@ export function ServiceHistory(props) {
 				 <small style={{display: 'flex', alignItems: 'center'}}>Download Details</small>
 				 </button>
 				 </div> */}
-         <div className={styles.modalOuterDiv} style={{display: 'flex'}}>
-         <div className={styles.box1}>
+         
+         {arrayDetails.order_number&& <div className={styles.modalOuterDiv} style={{display: 'flex'}}>
+        
+       <div className={styles.box1}>
 							<div style={{fontSize: 14, marginLeft: 12}} className={styles.title}>Order ID {arrayDetails.order_number}</div>
 								<div className={styles.modalBox} /*stlye={{width: '100%', height: '100%',display: '' textAlign: 'start'}}*/>
 								<div className={styles.modalDiv}  className={styles.modalDiv} style={{flexDirection: 'row'}}>
 								<span className={styles.textModal}>Customer Details</span>
 								</div><br/>
+             
                 <div className={styles.modalDiv}  className={styles.modalDiv} style={{flexDirection: 'row'}}>
-								<span className={styles.textModal}>Customer Name</span><span style={{marginLeft: 42,marginRight: 25}}> </span>{arrayDetails.user_name}
+								<span className={styles.textModal}>Customer Name</span><span style={{marginLeft: 42,marginRight: 25}}>- </span>{arrayDetails.user.name}
 								</div>
 								<div  className={styles.modalDiv} style={{flexDirection: 'row'}}>
-								<span className={styles.textModal}>Mobile Number</span><span style={{marginLeft:48,marginRight: 25}}>-  </span>{arrayDetails.user_mobile}
+								<span className={styles.textModal}>Mobile Number</span><span style={{marginLeft:48,marginRight: 25}}>-  </span>{arrayDetails.user.mobile}
 								</div>
 								<div  className={styles.modalDiv} style={{flexDirection: 'row'}}>
 								<span className={styles.textModal}>Train Name</span><span style={{marginLeft: 73,marginRight:25}}>- </span>{arrayDetails.trainname_or_number}
@@ -782,30 +803,29 @@ export function ServiceHistory(props) {
 								</div><div  className={styles.modalDiv} style={{flexDirection: 'row'}}>
 								<span className={styles.textModal}>Seat</span><span style={{marginLeft: 121,marginRight: 25}}>- </span>{arrayDetails.seat}
 								</div><div  className={styles.modalDiv} style={{flexDirection: 'row'}}>
-								<span className={styles.textModal}>Delivery Time</span><span style={{marginLeft: 64,marginRight: 25}}>- </span>{arrayDetails.services_from_time}
+								<span className={styles.textModal}>Delivery Time</span><span style={{marginLeft: 64,marginRight: 25}}>- </span>{moment(arrayDetails.delivery_date).format("DD-MM-YY HH:MM")}hrs
 								</div>
 								</div>
 						</div>
-            <div className={styles.box2} style={{}}>
-						<div  className={styles.title1}>Delivered</div>
-            
+            <div className={styles.box2} style={{}}> 
+						<div  className={styles.title1}style={{color: arrayDetails.order_status=="NEW"? '#10AC44':'#B22222' }}>{arrayDetails.order_status}</div>
 							<div className={styles.modalBox} style={{height:'92%',marginTop: '4.59px'}} 
                 /*stlye={{width: '100%', height: '100%',display: '' textAlign: 'start'}}*/>
                   <div className={styles.modalDiv}  className={styles.modalDiv} style={{flexDirection: 'row'}}>
 								<span className={styles.textModal}>Order Details</span>
-								</div><br/>
+								</div><br/>              
 							<div  className={styles.modalDiv} style={{flexDirection: 'row'}}>
-							<span className={styles.textModal}>Service Category</span><span style={{marginLeft: 75,marginRight: 25}}>  - </span>{arrayDetails.service_service_category}
+							<span className={styles.textModal}>Service Category</span><span style={{marginLeft: 75,marginRight: '25px'}}>- </span>{arrayDetails.category.category_name}
 							</div><div  className={styles.modalDiv} style={{flexDirection: 'row'}}>
-							<span className={styles.textModal}>Items</span><span style={{marginLeft: 147,marginRight: 25}}>-  </span>{arrayDetails.items}
+							<span className={styles.textModal}>Items</span><span style={{marginLeft: 147,marginRight: '25px'}}>-  </span> {renderComponent()}
 							</div><div  className={styles.modalDiv} style={{flexDirection: 'row'}}>
-							<span className={styles.textModal}>Amount</span><span style={{marginLeft: 129,marginRight: 25}}>-  450</span>{arrayDetails.amount}
+							<span className={styles.textModal}>Amount</span><span style={{marginLeft: 129,marginRight: '25px'}}>-  </span>{arrayDetails.total_amount}.00
 							</div>
               <div  className={styles.modalDiv} style={{flexDirection: 'row'}}>
-							<span className={styles.textModal}>Payment Mode</span><span style={{marginLeft: 87,marginRight: 25}}>- </span>{arrayDetails.payment_mode}
+							<span className={styles.textModal}>Payment Mode</span><span style={{marginLeft: 87,marginRight: '25px'}}>- </span>{arrayDetails.payment_mode}
 							</div>
               <div  className={styles.modalDiv} style={{flexDirection: 'row'}}>
-							<span className={styles.textModal}>Additional Comments</span><span style={{marginLeft: 46,marginRight: 25}}>-  Demo</span>{arrayDetails.additional_comments}
+							<span className={styles.textModal}>Additional Comments</span><span style={{marginLeft: 46,marginRight: '25px'}}>- </span>{arrayDetails.additional_comment}
 							</div>    
               <div>
 							</div>
@@ -816,7 +836,7 @@ export function ServiceHistory(props) {
 					
 							</div>
 							</div>
-						</div>
+						</div>}
             {/* <div className={styles.modalOuterDiv1}>
             <div className={styles.box3}>
 							<div style={{fontSize: 14, marginLeft: 12}} className={styles.title}>Bank Address</div>
