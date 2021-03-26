@@ -19,7 +19,11 @@ const initialState = {
   dashboardCount: {},
   orderDocs: [],
   orderTotal: "",
-  orderLimit: ""
+  orderLimit: "",
+  category: [],
+
+
+  
 };
 
 const stationReducer = (state = initialState, action) => {
@@ -110,6 +114,12 @@ const stationReducer = (state = initialState, action) => {
           orderDocs: action.docs,
           orderTotal: action.total,
           orderLimit: action.limit
+        }
+
+      case "GET_CATEGORY_SUCCESS":
+        return {
+          ...state,
+          category: action.category
         }
 
     default:

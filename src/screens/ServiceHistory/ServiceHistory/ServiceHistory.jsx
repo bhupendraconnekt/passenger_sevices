@@ -382,13 +382,18 @@ export function ServiceHistory(props) {
 
   // Getting Users list By Parameters
     useEffect(() => {
-      props.getStationOrderHistory(1,10, localStorage.getItem("station_id"));
-     
+      props.getStationOrderHistory(1,10, localStorage.getItem("station_id"));    
       // debugger
     }, [])
+   
+  
+    useEffect(() => {    
+      props.getStationCategory(1,5, localStorage.getItem("station_id"));
+      //debugger
+    },[])
 
     useEffect(() => {
-      debugger
+      // debugger
       if(props.orderDocs){
         setRows(props.orderDocs)
       }
@@ -528,10 +533,7 @@ export function ServiceHistory(props) {
         </span>
       )
     }
-    
-    function Parent(props) {
-      // return renderProducts();
-    }
+
 
   return(
     <div className={styles.main}>
@@ -566,77 +568,63 @@ export function ServiceHistory(props) {
           />
         </FormControl>
 
-         {/*Select*/}
-         {/* <div className={styles.selectDiv1}>
-           <select className={styles.select1} name="station_name"  onChange={handleInputs}>
-             <option selected disabled>Station Name</option>
-             {dropDownDetails.length > 0 && dropDownDetails.map(data =>
-               <option key={data._id} value={data._id}>{data.station_name}</option>
-             )}
-         </select>
-         </div> */}
-      
-          <div className={styles.selectDiv1}>
-            <select className={styles.select1} name="role"onChange={handleInputs}>
-              <option selected disabled></option>
-              {role.length > 0 && role.map(data =>
-                  <option key={data._id} value={data._id}>{data.role.replace('_', ' ')}</option>
-                  )}
-          </select>
-          </div>
+
+       <div className={styles.selectDiv1}>
+
+              <select className={styles.select1} name="role" onChange={handleInputs}>
+                <option selected disabled></option>
+                {props.category.map(data =>
+                  //debugger
+                  <option key={data._id} value={data._id}>{data.category_name}</option>
+                )}
+              </select>
+            </div>
+
+
+            {/* componentDidMount(){
+              axios.get('http://localhost:3000/ServiceHistory')
+                .then(response => {
+                  this.setState({ event: response.data });
+
+                })
+                .catch(function (error) {
+                  console.log(error);
+                })
+              } */}
+
 
         {/* <div className={styles.dateDiv}> */}
-        <div className={classes.container1}>
-        <label style={{width: 70}} className={styles.dateLabel}>From Date</label>
-                <DatePicker
-                    autoComplete="off"
-                    name="start_date"
-                    value={search.start_date}
-                    onChange={(e) => handleDateChange(e, 'start')}
-                    maxDate={search.end_date?new Date(search.end_date): ''}
-                    className={styles.input_s}
-                    peekNextMonth showMonthDropdown showYearDropdown
-                    dropdownMode="select"
-                //   value={state.contract_start_date?moment(state.contract_start_date).format("DD-MM-YYYY"): ''}
-                   placeholderText='dd/mm/yyyy' />
-    		</div>
+            <div className={classes.container1}>
+              <label style={{ width: 70 }} className={styles.dateLabel}>From Date</label>
+              <DatePicker
+                autoComplete="off"
+                name="start_date"
+                value={search.start_date}
+                onChange={(e) => handleDateChange(e, 'start')}
+                maxDate={search.end_date ? new Date(search.end_date) : ''}
+                className={styles.input_s}
+                peekNextMonth showMonthDropdown showYearDropdown
+                dropdownMode="select"
+                placeholderText='dd/mm/yyyy' />
+            </div>
 
-        <div className={classes.container1}>
-          <label style={{width: 45}} className={styles.dateLabel}>To Date</label>
-    			{/*<TextField
-    				id="date"
-    				variant="outlined"
-    				type="date"
-    				size="small"
-    				// defaultValue={new Date()}
-						
-    				className={classes.date1}
-    				// InputLabelProps={{
-            //   label: 'To Date',
-    				// 	shrink: true,
-            //   classes: { input: classes.input1 },
-            //   focused: classes.focused1,
-    				// }}
-            InputProps={{
-              placeholder: "From Date",
-              // endAdornment: null,
-              classes: { input: classes.input1 },
-              focused: classes.focused1,
-            }}
-    			/>*/}
-                <DatePicker
-                  autoComplete="off"
-                  name="end_date"
-                  value={search.end_date}
-                  minDate={search.start_date? new Date(search.start_date) : ''}
-                  className={styles.input_s}
-                  peekNextMonth showMonthDropdown showYearDropdown
-                  dropdownMode="select"
-                  onChange={(e) => handleDateChange(e, 'end')}
-                  placeholderText='dd/mm/yyyy' />
-    		</div>
-        {/* </div> */}
-      </div>
+
+
+            <div className={classes.container1}>
+              <label style={{ width: 45 }} className={styles.dateLabel}>To Date</label>
+              <DatePicker
+                autoComplete="off"
+                name="end_date"
+                value={search.end_date}
+                minDate={search.start_date ? new Date(search.start_date) : ''}
+                className={styles.input_s}
+                peekNextMonth showMonthDropdown showYearDropdown
+                dropdownMode="select"
+                onChange={(e) => handleDateChange(e, 'end')}
+                placeholderText='dd/mm/yyyy' />
+            </div>
+          </div>
+ 
       <div className={classes.div1}>
           {/*Search Button*/}
           <Button onClick={searchUsers} className={classes.button1} variant="contained">
@@ -645,10 +633,11 @@ export function ServiceHistory(props) {
         </div>
     </div>
 
+    
+
       <TableContainer
       className={classes.tableContainer}
       style={{
-
         }} component={Paper}>
       <Table aria-label="simple table">
         <TableHead style={{backgroundColor:'#213D77'}}>
@@ -668,15 +657,11 @@ export function ServiceHistory(props) {
         <TableBody>
           {rows.map((row, index) => (
             <TableRow className={classes.table} key={row.name}>
-              {/* <TableCell component="th" scope="row">
-                {index+1}
-              </TableCell> */}
                <TableCell align="center">{row.order_number}</TableCell>
               <TableCell align="center">{row.category.category_name}</TableCell>
               <TableCell align="center">{row.user.name}</TableCell>
               <TableCell align="center">{row.trainname_or_number}</TableCell>
               <TableCell align="center">{row.user.mobile}</TableCell>
-              {/* <TableCell align="center">{moment(order.station.delivery_date).format("DD MMMM YYYY" )}</TableCell> */}
               <TableCell align="center">{moment(row.delivery_date).format("DD-MM-YY HH:MM")}hrs</TableCell>
               <TableCell align="center">{row.total_amount}.00</TableCell>
               <TableCell align="center">{row.payment_mode}</TableCell>
@@ -817,7 +802,7 @@ export function ServiceHistory(props) {
 							<div  className={styles.modalDiv} style={{flexDirection: 'row'}}>
 							<span className={styles.textModal}>Service Category</span><span style={{marginLeft: 75,marginRight: '25px'}}>- </span>{arrayDetails.category.category_name}
 							</div><div  className={styles.modalDiv} style={{flexDirection: 'row'}}>
-							<span className={styles.textModal}>Items</span><span style={{marginLeft: 147,marginRight: '25px'}}>-  </span> {renderComponent()}
+							<span className={styles.textModal}>Items</span><span style={{marginLeft: 147,marginRight: '25px',}}>-  </span> {renderComponent()}
 							</div><div  className={styles.modalDiv} style={{flexDirection: 'row'}}>
 							<span className={styles.textModal}>Amount</span><span style={{marginLeft: 129,marginRight: '25px'}}>-  </span>{arrayDetails.total_amount}.00
 							</div>
@@ -891,7 +876,9 @@ const mapStateToProps = (state) => {
     role: state.Users.role,
     orderDocs: state.Stations.orderDocs,
     orderLimit: state.Stations.orderLimit,
-    orderTotal: state.Stations.orderTotal
+    orderTotal: state.Stations.orderTotal,
+    category: state.Stations.category,
+
 	}
 }
 
@@ -900,11 +887,11 @@ const mapDispatchToProps = (dispatch) => {
     getStationOrderHistory: (page,limit, stationId) => {
       dispatch(actions.getStationOrderHistory(page,limit, stationId))
     },
-    // setIsLoading: (value) =>
-    //   dispatch(setIsLoading(value)),
-    // getRole: () => {
-    //   dispatch(actions.getRole())
-    // },
+    getStationCategory: (station_id) => {
+     dispatch(actions.getStationCategory(station_id))
+   }
+
+
     // getUserData: () => {
     //   dispatch(getStationData())
     // },

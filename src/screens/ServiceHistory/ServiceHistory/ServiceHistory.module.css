@@ -248,6 +248,9 @@ border-color: #cac7c7;
   color: #52575D;
   opacity: 1;
 }
+/* .itembtn {
+   positi;
+} */
 
 .modalDiv {
   /* text-align: left; */
@@ -258,7 +261,7 @@ border-color: #cac7c7;
   font-weight: 540;
   margin-top: 10px;
   margin-bottom: 10px;
-  display: flex;
+  /* display: flex; */
 }
 
 .modalButton {
@@ -626,7 +629,7 @@ border-color: #cac7c7;
 }
 
 .modalDiv {
-  /* text-align: left; */
+
   font: normal normal normal 12px Montserrat;
   letter-spacing: 0px;
   color: #272d3bb5;

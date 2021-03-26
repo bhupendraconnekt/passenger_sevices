@@ -444,3 +444,41 @@ export function setStationOrderHistory(docs, total, limit) {
     limit: limit
   }
 }
+
+// get station dropdown button
+export function getStationCategory(stationId){
+  return async dispatch => {
+    let link = `${API.categoryByStation}?station_id=${"603498cf368b320cf0dc0a7d"}`;
+    debugger
+    let a = await dispatch(setIsLoading(true))
+    axios({
+      method: 'GET',
+      url: link,
+      headers: {
+        "accept": "application/json",
+        "Content-Type": "application/json",
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      }
+    }).then(response => {
+      console.log(response)
+      debugger
+      if(response.data.success){
+        debugger
+        dispatch(setStationCategory(response.data.category,))
+        
+        // dispatch(setDashboardCount(response.data.counts))
+      }
+      dispatch(setIsLoading(false))
+    }).catch(err => {
+      debugger
+      toast.error(err.message)
+      dispatch(setIsLoading(false))
+    })
+  }
+}
+export function setStationCategory(category) {
+  return {
+    type: "GET_CATEGORY_SUCCESS",
+    category: category,
+  }
+}

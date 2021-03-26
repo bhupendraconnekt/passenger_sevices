@@ -28,4 +28,5 @@ export const DashBoardAPI = `${url}/reports/count`
 // Profile Setting APIs
 export const UpdateProfileAPI = `${url}/users/profile_update`
  
-//Add Services Request APIs
+//Add Services Category APIs
+export const categoryByStation = `${url}/servicecategories`
